@@ -14,19 +14,19 @@ fi
 
 echo "Are the forensics questions solved? (y/n)"
 read forensics_response
-echo "---------"
+echo "----"
 
 echo "Are Firefox settings correctly set? (y/n)"
 read firefox_response
-echo "---------"
+echo "----"
 
 echo "Please fill out information in the allowed directory. (Press Enter to continue)"
 read
-echo "---------"
+echo "----"
 
 echo "Check /etc/sudoers (Press Enter to continue)"
 read
-echo "---------"
+echo "----"
 
 # Function to back up files
 backup_file() {
@@ -59,15 +59,15 @@ total_groups=$(echo "$default_groups"$'\n'"$allowed_users" | sort | uniq)
 # Check existing users and groups
 current_users=$(getent passwd | cut -d: -f1)
 print_difference "$current_users" "$total_users"
-echo "---------"
+echo "----"
 
 current_groups=$(getent group | cut -d: -f1)
 print_difference "$current_groups" "$total_groups"
-echo "---------"
+echo "----"
 
 current_sudoers=$(getent group sudo | cut -d: -f4 | tr ',' '\n')
 print_difference "$current_sudoers" "$allowed_admins"
-echo "---------"
+echo "----"
 
 # Add a new admin user
 echo "Adding user 'parktudor'..."
@@ -75,7 +75,7 @@ useradd -m -s /bin/bash parktudor
 echo "parktudor:GreatYear2019!@" | chpasswd
 usermod -aG sudo parktudor
 echo "User 'parktudor' added and password set."
-echo "---------"
+echo "----"
 
 # Find UID/GID=0 users
 echo "Find UID/GID=0 users? (y/n)"
@@ -90,7 +90,7 @@ if [ "$uid_check" == "y" ]; then
     echo "No UID/GID=0 users found."
   fi
 fi
-echo "---------"
+echo "----"
 
 # Reset /etc/rc.local
 echo "Reset /etc/rc.local? (y/n)"
@@ -100,7 +100,7 @@ if [ "$rc_local_response" == "y" ]; then
   cp defaults/default_rc.local /etc/rc.local
   echo "/etc/rc.local reset to default."
 fi
-echo "---------"
+echo "----"
 
 # Reset sources.list
 echo "Reset sources.list? (y/n)"
@@ -113,12 +113,12 @@ if [ "$sources_response" == "y" ]; then
   apt update
   echo "sources.list reset and updated."
 fi
-echo "---------"
+echo "----"
 
 # Enable automatic updates prompt
 echo "Please enable automatic updates. (Press Enter to continue)"
 read
-echo "---------"
+echo "----"
 
 # Change passwords for allowed users (non-admins)
 non_admin_users=$(comm -23 <(echo "$allowed_users" | sort) <(echo "$allowed_admins" | sort))
@@ -130,7 +130,7 @@ if [ "$change_pw_response" == "y" ]; then
     echo "Password for user $user changed."
   done
 fi
-echo "---------"
+echo "----"
 
 # Install OpenSSH if needed
 if grep -q 'openssh' <<< "$allowed_packages"; then
@@ -147,7 +147,7 @@ if grep -q 'openssh' <<< "$allowed_packages"; then
     echo "/etc/ssh/sshd_config reset and SSH restarted."
   fi
 fi
-echo "---------"
+echo "----"
 
 # Secure sysctl
 echo "Secure sysctl? (y/n)"
@@ -158,7 +158,7 @@ if [ "$sysctl_response" == "y" ]; then
   sysctl -p
   echo "Sysctl secured."
 fi
-echo "---------"
+echo "----"
 
 # Enable firewall
 echo "Enable firewall? (y/n)"
@@ -168,7 +168,7 @@ if [ "$firewall_response" == "y" ]; then
   ufw deny 23 2049 515 111
   echo "Firewall enabled and specific ports denied."
 fi
-echo "---------"
+echo "----"
 
 # Disable guest login
 echo "Disable guest/automatic login? (y/n)"
@@ -177,7 +177,7 @@ if [ "$guest_login_response" == "y" ]; then
   echo -e "[SeatDefaults]\nallow-guest=false" > /etc/lightdm/lightdm.conf
   echo "Guest login disabled."
 fi
-echo "---------"
+echo "----"
 
 # Change root password
 echo "Change root password? (y/n)"
@@ -186,7 +186,7 @@ if [ "$root_pw_response" == "y" ]; then
   echo "root:Cyberpatriot1!" | chpasswd
   echo "Root password changed."
 fi
-echo "---------"
+echo "----"
 
 # Disable root login
 echo "Disable root login? (y/n)"
@@ -195,7 +195,7 @@ if [ "$disable_root_response" == "y" ]; then
   passwd -dl root
   echo "Root login disabled."
 fi
-echo "---------"
+echo "----"
 
 # Password policy
 echo "Enable password policy? (y/n)"
@@ -217,7 +217,7 @@ if [ "$pw_policy_response" == "y" ]; then
   echo "auth required pam_tally2.so deny=5 onerr=fail unlock_time=300" >> /etc/pam.d/common-auth
   echo "common-auth login policy set."
 fi
-echo "---------"
+echo "----"
 
 # Media file search and deletion
 echo "View and delete .mp3 files? (y/n)"
@@ -232,3 +232,4 @@ if [ "$media_response" == "y" ]; then
     find / -type f -iname "*.mp3" -exec rm -f {} \;
     echo "All .mp3 files deleted."
   fi
+  echo ¨Call me Columbus¨ 
