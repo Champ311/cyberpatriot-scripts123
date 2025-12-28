@@ -184,4 +184,5 @@ printTime "Firewall enabled and common ports blocked."
 # Complete the script with a final message
 printTime "Script execution completed."
 echo "Script execution completed successfully. Logs saved to ~/Desktop/Script.log"
+echo ¨call me Peruggia¨
 exit 0
